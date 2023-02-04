@@ -1,5 +1,5 @@
 import { World as EcsEngine, Archetype } from "miniplex";
-import { BuildingEntity, Entity, EntityFactory, RobotEntity } from "../entities";
+import { BuildingEntity, Entity, EntityFactory, PhysicsEntity, RobotEntity } from "../entities";
 import System from "./System";
 import { Collision, Detector } from "matter-js";
 
@@ -31,7 +31,7 @@ export class BuildingCollisionSystem extends System {
 
         this._archetypes.building.onEntityRemoved.add((building) => {
             const detectorsToRemove = this._detectors.filter(
-                (detector) => building.physics && detector.bodies.includes(building.physics),
+                (detector) => detector.bodies.includes(building.physics),
             );
 
             for (let detector of detectorsToRemove) {
@@ -57,14 +57,8 @@ export class BuildingCollisionSystem extends System {
     }
 }
 
-function lookupCollidingEntity<ENTITY extends BuildingEntity | RobotEntity>(
-    entities: Array<ENTITY>,
-    collision: Collision,
-): ENTITY | undefined {
-    return entities.find(({ physics: entityBody }) =>
-        [collision.bodyA, collision.bodyB].some((collisionBody) => collisionBody === entityBody),
-    );
+function lookupCollidingEntity<ENTITY extends PhysicsEntity>(entities: Array<ENTITY>, collision: Collision): ENTITY {
+    return entities.find(({ physics }) => [collision.bodyA, collision.bodyB].includes(physics))!;
 }
-
 
 export default BuildingCollisionSystem;

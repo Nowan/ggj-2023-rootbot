@@ -49,7 +49,8 @@ function parseTilesLayer(tiledLayer: TiledLayerTilelayer, { tilewidth, tileheigh
                 const tileTexturePath = `assets/textures/terrain/tile_${String(tileIndex).padStart(4, "0")}.png`
                 const sprite = Sprite.from(tileTexturePath);
 
-                sprite.position.set(c * tilewidth, r * tileheight);
+                sprite.anchor.set(0.5);
+                sprite.position.set((c + 0.5) * tilewidth, (r + 0.5) * tileheight);
                 sprite.width = tilewidth;
                 sprite.height = tileheight;
 

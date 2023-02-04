@@ -68,6 +68,9 @@ export default class Game {
     }
 
     private _initEntities(): void {
+        for (let terrainTile of this.level.terrainTiles) {
+            this._entityFactory.createTerrainTile(terrainTile);
+        }
         this._entityFactory.createRobotEntity();
     }
 
@@ -100,7 +103,7 @@ function createSystems(
         new PixiSystem(ecs, level),
         new BuildingCollisionSystem(ecs, entityFactory),
         new BuildingSpawnSystem(ecs, level, entityFactory),
-        new UprootSystem(ecs, physics)
+        new UprootSystem(ecs, physics, level)
     ];
 }
 

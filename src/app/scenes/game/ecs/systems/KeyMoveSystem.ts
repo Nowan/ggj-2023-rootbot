@@ -71,7 +71,8 @@ function updateVelocity(entity: RobotEntity): void {
         if (leftDirection) velocity *= -1;
         if (rightDirection) velocity *= 1;
 
-        Body.setVelocity(entity.physics, { x: velocity, y: 0 });
+        Body.setVelocity(entity.physics, { x: velocity * 2, y: 0 });
+
         entity.pixi.scale.x = Math.sign(velocity);
     }
 }

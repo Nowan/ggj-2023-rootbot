@@ -1,14 +1,16 @@
 import { RegisteredEntity, World as EcsEngine } from "miniplex";
+import { Sprite } from "pixi.js";
 import { LevelContainer } from "../../../core/parseLevel";
 import {
     BuildingEntity,
     CollisionEntity,
-    Entity, RobotEntity,
+    Entity, RobotEntity, TerrainTileEntity,
 } from "../Entity";
 import {
     composeBuildingEntity,
     composeCollisionEntity,
-    composeRobotEntity
+    composeRobotEntity,
+    composeTerrainTileEntity
 } from "./composers";
 
 export class EntityFactory {
@@ -18,6 +20,10 @@ export class EntityFactory {
     constructor(ecs: EcsEngine<Entity>, level: LevelContainer) {
         this._ecs = ecs;
         this._level = level;
+    }
+
+    public createTerrainTile(terrainTile: Sprite): RegisteredEntity<TerrainTileEntity> {
+        return this._register(composeTerrainTileEntity(terrainTile));
     }
 
     public createRobotEntity(): RegisteredEntity<RobotEntity> {

@@ -1,4 +1,4 @@
-import { Bodies } from "matter-js";
+import { Bodies, Body, Constraint } from "matter-js";
 import { Sprite } from "pixi.js";
 import { LevelContainer } from "../../../../core/parseLevel";
 import { BuildingEntity } from "../../Entity";

@@ -11,7 +11,8 @@ export function composeRobotEntity(level: LevelContainer): RobotEntity {
     return {
         id: "Robot",
         robot: {
-            collidesWith: []
+            collidesWith: [],
+            carries: null
         },
         pixi: sprite,
         physics: Bodies.rectangle(sprite.x, sprite.y, sprite.width, sprite.height, physicsConfig.robot),

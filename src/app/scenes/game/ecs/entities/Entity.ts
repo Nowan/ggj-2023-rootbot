@@ -28,4 +28,6 @@ export type BuildingEntity = PixiPhysicsEntity & BuildingComponent;
 
 export type CollisionEntity<ENTITY_A extends Entity, ENTITY_B extends Entity = ENTITY_A> = Entity & CollisionComponent<ENTITY_A, ENTITY_B>;
 
+export type TerrainTileEntity = PixiPhysicsEntity;
+
 export default Entity;

@@ -1,8 +1,9 @@
-import { PhysicsEntity } from "../entities";
+import { PhysicsEntity, BuildingEntity } from "../entities";
 
 export interface RobotComponent {
     robot: {
-        collidesWith: Array<PhysicsEntity>
+        collidesWith: Array<PhysicsEntity>,
+        carries: BuildingEntity | null
     };
 }
 
