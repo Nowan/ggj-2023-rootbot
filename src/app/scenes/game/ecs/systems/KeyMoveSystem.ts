@@ -52,7 +52,7 @@ export class KeyMoveSystem extends System {
         for (let { physics: body } of this._archetype.entities) {
             Body.setPosition(body, {
                 x: body.position.x + body.velocity.x,
-                y: clamp(body.position.y + body.velocity.y, 75, 555),
+                y: body.position.y + body.velocity.y,
             });
         }
     }

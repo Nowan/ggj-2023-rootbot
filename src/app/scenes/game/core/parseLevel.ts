@@ -1,4 +1,4 @@
-import { Container, DisplayObject, IPointData } from "pixi.js";
+import { Container, DisplayObject, Graphics, IPointData } from "pixi.js";
 import { TiledMap } from "tiled-types";
 import { TiledMapContainer } from "../../../core/tiled";
 import parseTiledMap from "../../../core/tiled/parseMap";
@@ -12,6 +12,7 @@ export type LevelContainer = TiledMapContainer & {
 
 export default function parseLevel(levelData: TiledMap): LevelContainer {
     const level = parseTiledMap(levelData) as LevelContainer;
+    const background = level.addChildAt(new Graphics().beginFill(0xff0000).drawRect(0, 0, level.staticBounds.width, level.staticBounds.height).endFill(), 0);
 
     level.robotSpawnPoint = selectDisplayObjectsOfName<Container>(level, "SPAWN_POINT")[0];
 
