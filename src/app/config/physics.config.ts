@@ -9,7 +9,6 @@ export default {
         inertia: Infinity,
     },
     building: {
-        isSensor: true,
-        isStatic: true
+        isSensor: true
     }
 } as Record<"robot" | "building", IBodyDefinition>;

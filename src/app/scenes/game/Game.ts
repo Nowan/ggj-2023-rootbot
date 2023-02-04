@@ -100,7 +100,7 @@ function createSystems(
         new PixiSystem(ecs, level),
         new BuildingCollisionSystem(ecs, entityFactory),
         new BuildingSpawnSystem(ecs, level, entityFactory),
-        new UprootSystem(ecs)
+        new UprootSystem(ecs, physics)
     ];
 }
 

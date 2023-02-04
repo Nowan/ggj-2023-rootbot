@@ -2,15 +2,17 @@ import { World as EcsEngine, Archetype } from "miniplex";
 import { Entity, RobotEntity } from "../entities";
 import System from "./System";
 import { Listener as KeypressListener } from "keypress.js";
-import { Body } from "matter-js";
+import { Engine as PhysicsEngine, Constraint, Composite, Body } from "matter-js";
 
 export class UprootSystem extends System {
+    private _physics: PhysicsEngine;
     private _archetype: Archetype<RobotEntity>;
     private _keypressListener: KeypressListener;
 
-    constructor(ecs: EcsEngine<Entity>) {
+    constructor(ecs: EcsEngine<Entity>, physics: PhysicsEngine) {
         super(ecs);
 
+        this._physics = physics;
         this._archetype = ecs.archetype("robot") as Archetype<RobotEntity>;
         this._keypressListener = new KeypressListener();
     }
@@ -24,8 +26,18 @@ export class UprootSystem extends System {
 
                     if (collidingRobotEntity) {
                         const [buildingEntity] = collidingRobotEntity.robot.collidesWith;
+                        const robotHeight = collidingRobotEntity.physics.bounds.max.y - collidingRobotEntity.physics.bounds.min.y;
+                        const buildingHeight = buildingEntity.physics.bounds.max.y - buildingEntity.physics.bounds.min.y;
+                        const constraintLength = (buildingHeight + robotHeight) * 0.5;
 
-                        Body.setPosition(buildingEntity.physics, { x: buildingEntity.physics.position.x, y: buildingEntity.physics.position.y - 5 });
+                        const constraint = Constraint.create({
+                            bodyA: collidingRobotEntity.physics,
+                            bodyB: buildingEntity.physics,
+                            length: constraintLength
+                        })
+
+                        Body.setPosition(buildingEntity.physics, { x: buildingEntity.physics.position.x, y: collidingRobotEntity.physics.position.y - constraintLength });
+                        Composite.add(this._physics.world, constraint);
                     }
                 },
                 prevent_repeat: true,
