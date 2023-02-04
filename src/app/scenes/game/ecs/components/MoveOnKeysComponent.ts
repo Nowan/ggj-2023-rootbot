@@ -5,12 +5,9 @@ export enum MoveKey {
     ARROW_RIGHT = "right",
 }
 
-export enum MoveDirection {
-    LEFT = -1,
-    RIGHT = 1,
-}
-
-export type MoveOnKeysComponentDataObject = Partial<Record<MoveKey, MoveDirection>>;
+export type MoveOnKeysComponentDataObject = {
+    states: Partial<Record<MoveKey, boolean>>
+};
 
 export interface MoveOnKeysComponent {
     moveOnKeys: MoveOnKeysComponentDataObject;

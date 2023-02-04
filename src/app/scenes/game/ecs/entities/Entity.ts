@@ -8,7 +8,8 @@ import {
 export type Entity = { id: string } & Partial<
     PixiComponent &
     MoveOnKeysComponent &
-    PhysicsComponent
+    PhysicsComponent &
+    RobotComponent
 >;
 
 export type PixiEntity = Required<Pick<Entity, keyof PixiComponent>>;
