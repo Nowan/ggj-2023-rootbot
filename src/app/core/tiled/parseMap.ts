@@ -8,6 +8,7 @@ export default function parseMap(tiledMap: TiledMap): TiledMapContainer {
     const worldWidth = tiledMap.width * tiledMap.tilewidth;
     const worldHeight = tiledMap.height * tiledMap.tileheight;
 
+    world.tiled = tiledMap;
     world.name = "World";
     world.staticBounds = new Rectangle(0, 0, worldWidth, worldHeight);
     world.layers = [];

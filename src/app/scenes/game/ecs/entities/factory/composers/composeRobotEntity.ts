@@ -1,4 +1,4 @@
-import { Bodies, Body } from "matter-js";
+import { Bodies } from "matter-js";
 import { Sprite } from "pixi.js";
 import { LevelContainer } from "../../../../core/parseLevel";
 import { MoveKey } from "../../../components";
@@ -8,7 +8,6 @@ import physicsConfig from "../../../../../../config/physics.config";
 export function composeRobotEntity(level: LevelContainer): RobotEntity {
     const sprite = createRobotSprite(level);
 
-    // console.log(sprite.x, sprite.y)
     return {
         id: "Robot",
         robot: true,

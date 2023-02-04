@@ -3,7 +3,6 @@ import { Entity, RobotEntity } from "../entities";
 import { Listener as KeypressListener } from "keypress.js";
 import { Body } from "matter-js";
 import { World as EcsEngine, Archetype } from "miniplex";
-import { clamp } from "../../../../core/utils/math";
 import { MoveKey } from "../components";
 
 enum MoveDirection {
@@ -73,6 +72,7 @@ function updateVelocity(entity: RobotEntity): void {
         if (rightDirection) velocity *= 1;
 
         Body.setVelocity(entity.physics, { x: velocity, y: 0 });
+        entity.pixi.scale.x = Math.sign(velocity);
     }
 }
 

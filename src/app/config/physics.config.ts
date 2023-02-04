@@ -7,5 +7,9 @@ export default {
         frictionAir: 0,
         frictionStatic: 0,
         inertia: Infinity,
+    },
+    building: {
+        isSensor: true,
+        isStatic: true
     }
-} as Record<"robot", IBodyDefinition>;
+} as Record<"robot" | "building", IBodyDefinition>;

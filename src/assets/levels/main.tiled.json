@@ -49,6 +49,26 @@
                  "width":0,
                  "x":465,
                  "y":45
+                }, 
+                {
+                 "class":"Line",
+                 "height":0,
+                 "id":2,
+                 "name":"HORIZON",
+                 "polyline":[
+                        {
+                         "x":0,
+                         "y":0
+                        }, 
+                        {
+                         "x":900,
+                         "y":0
+                        }],
+                 "rotation":0,
+                 "visible":true,
+                 "width":0,
+                 "x":0,
+                 "y":60
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -57,7 +77,7 @@
          "y":0
         }],
  "nextlayerid":3,
- "nextobjectid":2,
+ "nextobjectid":3,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.9.2",
