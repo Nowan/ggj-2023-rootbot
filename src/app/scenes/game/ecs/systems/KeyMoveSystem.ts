@@ -22,8 +22,8 @@ export class KeyMoveSystem extends System {
                 this._keypressListener.register_many([
                     {
                         keys: moveKey,
-                        on_keydown: () => console.log(moveKey + " down"),
-                        on_keyup: () => console.log(moveKey + " up"),
+                        on_keydown: () => Body.setVelocity(entity.physics, { x: moveDirection, y: 0 }),
+                        on_keyup: () => Body.setVelocity(entity.physics, { x: 0, y: 0 }),
                         prevent_repeat: true,
                     },
                 ]);

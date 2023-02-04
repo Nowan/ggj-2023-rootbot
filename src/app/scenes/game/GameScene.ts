@@ -22,6 +22,7 @@ export default class GameScene extends Scene {
     public async load(): Promise<void> {
         await Assets.load(LEVEL_DATA_PATH);
         await Assets.load("assets/textures/terrain.json");
+        await Assets.load("assets/textures/character.json");
     }
 
     public init(): void {

@@ -43,14 +43,17 @@ function parseTilesLayer(tiledLayer: TiledLayerTilelayer, { tilewidth, tileheigh
         for (let c = 0; c < tiledLayer.width; c++) {
             const serial = tiledLayer.width * r + c;
             const tileIndex = Number(tiledLayer.data[serial]) - 1;
-            const tileTexturePath = `assets/textures/terrain/tile_${String(tileIndex).padStart(4, "0")}.png`
-            const sprite = Sprite.from(tileTexturePath);
 
-            sprite.position.set(c * tilewidth, r * tileheight);
-            sprite.width = tilewidth;
-            sprite.height = tileheight;
+            if (tileIndex >= 0) {
+                const tileTexturePath = `assets/textures/terrain/tile_${String(tileIndex).padStart(4, "0")}.png`
+                const sprite = Sprite.from(tileTexturePath);
 
-            layer.addChild(sprite);
+                sprite.position.set(c * tilewidth, r * tileheight);
+                sprite.width = tilewidth;
+                sprite.height = tileheight;
+
+                layer.addChild(sprite);
+            }
         }
     }
     return layer as TiledLayerContainer;

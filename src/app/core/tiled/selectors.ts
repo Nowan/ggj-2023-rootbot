@@ -19,14 +19,9 @@ export function selectObjectsMatchingPredicate<OBJECT extends TiledObject>(
     });
 }
 
-export function selectObjectWithName<T extends DisplayObject>(
+export function selectDisplayObjectsOfName<T extends DisplayObject>(
     tiledMapContainer: TiledMapContainer,
     name: string,
-): T | null {
-    for (let layer of tiledMapContainer.layers) {
-        const child = layer.children.find((child) => child.name === name);
-        if (child) return child as T;
-    }
-
-    return null;
+): Array<T> {
+    return tiledMapContainer.layers.flatMap(layer => layer.children.filter((child) => child.name === name) as Array<T>);
 }
