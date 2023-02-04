@@ -1,11 +1,11 @@
-import { Bodies, Body, Constraint } from "matter-js";
-import { Sprite } from "pixi.js";
+import { Bodies } from "matter-js";
 import { LevelContainer } from "../../../../core/parseLevel";
 import { BuildingEntity } from "../../Entity";
 import physicsConfig from "../../../../../../config/physics.config";
+import Building from "../../../../pixi/Building";
 
 export function composeBuildingEntity(level: LevelContainer): BuildingEntity {
-    const sprite = createBuildingSprite(level);
+    const sprite = level.layers[1].addChild(new Building());
 
     return {
         id: "Building",
@@ -13,15 +13,6 @@ export function composeBuildingEntity(level: LevelContainer): BuildingEntity {
         pixi: sprite,
         physics: Bodies.rectangle(sprite.x, sprite.y, sprite.width, sprite.height, physicsConfig.building)
     };
-}
-
-function createBuildingSprite(level: LevelContainer): Sprite {
-    const sprite = Sprite.from("assets/textures/building/house_noroot_00.png");
-
-    sprite.position.copyFrom(level.robotSpawnPoint);
-    sprite.anchor.set(0.5);
-
-    return level.layers[0].addChild(sprite);
 }
 
 export default composeBuildingEntity;

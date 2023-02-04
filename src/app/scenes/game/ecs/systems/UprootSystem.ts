@@ -4,6 +4,7 @@ import System from "./System";
 import { Listener as KeypressListener } from "keypress.js";
 import { Engine as PhysicsEngine, Constraint, Composite, Body } from "matter-js";
 import { LevelContainer } from "../../core/parseLevel";
+import Building from "../../pixi/Building";
 
 export class UprootSystem extends System {
     private _physics: PhysicsEngine;
@@ -29,18 +30,24 @@ export class UprootSystem extends System {
 
                     if (carrierRobotEntity) {
                         const buildingEntity = carrierRobotEntity.robot.carries!;
+                        const buildingGraphics = buildingEntity.pixi as Building;
                         const robotHeight = carrierRobotEntity.physics.bounds.max.y - carrierRobotEntity.physics.bounds.min.y;
                         const columnStartX = Math.floor(carrierRobotEntity.physics.position.x / this._level.tiled.tilewidth) * this._level.tiled.tilewidth;
 
                         Body.setPosition(buildingEntity.physics, { x: columnStartX, y: carrierRobotEntity.physics.position.y - robotHeight * 0.5 });
 
+                        buildingGraphics.setRooted(true);
                         carrierRobotEntity.robot.carries = null;
                     }
                     else {
                         const [collidingRobotEntity] = this._archetype.entities.filter(({ robot }) => robot.collidesWith.length > 0);
 
                         if (collidingRobotEntity && collidingRobotEntity.robot.collidesWith.length > 0) {
-                            collidingRobotEntity.robot.carries = collidingRobotEntity.robot.collidesWith[0] as BuildingEntity;
+                            const buildingEntity = collidingRobotEntity.robot.collidesWith[0] as BuildingEntity;
+                            const buildingGraphics = buildingEntity.pixi as Building;
+
+                            collidingRobotEntity.robot.carries = buildingEntity;
+                            buildingGraphics.setRooted(false);
                         }
                     }
                 },
