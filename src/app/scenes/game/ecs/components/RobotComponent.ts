@@ -1,5 +1,9 @@
+import { PhysicsEntity } from "../entities";
+
 export interface RobotComponent {
-    robot: boolean;
+    robot: {
+        collidesWith: Array<PhysicsEntity>
+    };
 }
 
 export default RobotComponent;

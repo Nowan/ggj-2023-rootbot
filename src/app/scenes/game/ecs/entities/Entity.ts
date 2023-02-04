@@ -3,7 +3,8 @@ import {
     PhysicsComponent,
     MoveOnKeysComponent,
     RobotComponent,
-    BuildingComponent
+    BuildingComponent,
+    CollisionComponent
 } from "../components";
 
 export type Entity = { id: string } & Partial<
@@ -11,7 +12,8 @@ export type Entity = { id: string } & Partial<
     MoveOnKeysComponent &
     PhysicsComponent &
     RobotComponent &
-    BuildingComponent
+    BuildingComponent &
+    CollisionComponent<any>
 >;
 
 export type PixiEntity = Required<Pick<Entity, keyof PixiComponent>>;
@@ -23,5 +25,7 @@ export type PixiPhysicsEntity = PixiEntity & PhysicsEntity;
 export type RobotEntity = PixiPhysicsEntity & MoveOnKeysComponent & RobotComponent;
 
 export type BuildingEntity = PixiPhysicsEntity & BuildingComponent;
+
+export type CollisionEntity<ENTITY_A extends Entity, ENTITY_B extends Entity = ENTITY_A> = Entity & CollisionComponent<ENTITY_A, ENTITY_B>;
 
 export default Entity;

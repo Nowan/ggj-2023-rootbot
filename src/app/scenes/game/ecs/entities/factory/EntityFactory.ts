@@ -2,10 +2,12 @@ import { RegisteredEntity, World as EcsEngine } from "miniplex";
 import { LevelContainer } from "../../../core/parseLevel";
 import {
     BuildingEntity,
+    CollisionEntity,
     Entity, RobotEntity,
 } from "../Entity";
 import {
     composeBuildingEntity,
+    composeCollisionEntity,
     composeRobotEntity
 } from "./composers";
 
@@ -24,6 +26,10 @@ export class EntityFactory {
 
     public createBuildingEntity(): RegisteredEntity<BuildingEntity> {
         return this._register(composeBuildingEntity(this._level));
+    }
+
+    public createCollisionEntity<ENTITY_A extends Entity, ENTITY_B extends Entity = ENTITY_A>(entityA: ENTITY_A, entityB: ENTITY_B): RegisteredEntity<CollisionEntity<ENTITY_A, ENTITY_B>> {
+        return this._register(composeCollisionEntity(entityA, entityB));
     }
 
     private _register<ENTITY extends Entity>(entity: ENTITY): RegisteredEntity<ENTITY> {
