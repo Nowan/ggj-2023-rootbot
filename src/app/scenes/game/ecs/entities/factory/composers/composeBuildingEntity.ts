@@ -10,7 +10,8 @@ export function composeBuildingEntity(level: LevelContainer): BuildingEntity {
     return {
         id: "Building",
         building: {
-            roots: null
+            roots: null,
+            isCarried: false
         },
         pixi: sprite,
         physics: Bodies.rectangle(sprite.x, sprite.y, sprite.width, sprite.height, physicsConfig.building)

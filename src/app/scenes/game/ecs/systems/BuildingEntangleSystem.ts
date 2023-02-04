@@ -51,8 +51,7 @@ export class BuildingEntangleSystem extends System {
             const lifeTimeInS = (Date.now() - entity.roots.creationTimestamp) / 1000;
             const rootsLength = Math.floor(lifeTimeInS) * 0.5;
 
-
-            // console.log(lifeTimeInS, rootsLength);
+            container.setLength(rootsLength);
         }
     }
 }

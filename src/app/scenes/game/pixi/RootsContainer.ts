@@ -1,14 +1,19 @@
-import { Container, Sprite } from "pixi.js"
+import { Container, Sprite, TilingSprite } from "pixi.js"
 
 const TILE_HEIGHT = 30;
 
 export default class RootsContainer extends Container {
     private _length: number;
+    // private _topSprite: Sprite;
+    private _middleSprite: Sprite;
+    private _bottomSprite: Sprite;
 
     constructor() {
         super();
 
-        this._createTopmostSprite();
+        // this._topSprite = this._createEdgeSprite();
+        this._middleSprite = this._createMiddleSprite();
+        this._bottomSprite = this._createEdgeSprite();
 
         this._length = -1;
 
@@ -18,13 +23,28 @@ export default class RootsContainer extends Container {
     public setLength(length: number): void {
         if (length === this._length) return;
 
-        this.pivot.y = ((length - 0.5) * TILE_HEIGHT) * 0.5;
+        this._middleSprite.height = Math.max(length * TILE_HEIGHT, 0);
+        this._bottomSprite.y = length * TILE_HEIGHT;
+
+        // const sprite = this._createMiddleSprite();
+        // sprite.position.y = this._length * TILE_HEIGHT + TILE_HEIGHT * 0.5;
+
+        // this.pivot.y = ((length - 0.5) * TILE_HEIGHT) * 0.5;
+        // this._middleSprite.height = length * TILE_HEIGHT;
         this._length = length;
     }
 
-    _createTopmostSprite() {
-        const sprite = Sprite.from("assets/textures/building/root_underground_top.png");
-        sprite.anchor.set(0.5);
+    _createEdgeSprite() {
+        const sprite = Sprite.from("assets/textures/building/root_underground_edge.png");
+        sprite.anchor.set(0.5, 0);
+        return this.addChild(sprite);
+    }
+
+    _createMiddleSprite() {
+        const sprite = TilingSprite.from("assets/textures/building/root_underground_through.png", { width: 60, height: 30 });
+        sprite.clampMargin = -0.5;
+        sprite.anchor.set(0.5, 0);
+        sprite.height = 0;
         return this.addChild(sprite);
     }
 }
