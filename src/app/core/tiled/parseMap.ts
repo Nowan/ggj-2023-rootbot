@@ -1,4 +1,4 @@
-import { Container, DisplayObject, Graphics, Rectangle } from "pixi.js";
+import { Container, DisplayObject, Graphics, Rectangle, Sprite } from "pixi.js";
 import TiledMap, { TiledLayer, TiledObject, TiledLayerTilelayer, TiledLayerObjectgroup } from "tiled-types";
 import { TiledMapContainer, TiledLayerContainer } from "./TiledMapContainer";
 import { PartiallyRequired, isPartiallyRequired } from "../utils/utilityTypes";
@@ -14,7 +14,7 @@ export default function parseMap(tiledMap: TiledMap): TiledMapContainer {
     world.layerNameToContainerMap = new Map();
 
     for (let tiledLayer of tiledMap.layers) {
-        const layer = world.addChild(parseLayer(tiledLayer));
+        const layer = world.addChild(parseLayer(tiledLayer, tiledMap));
         layer.name = tiledLayer.name;
 
         world.layers.push(layer);
@@ -24,11 +24,11 @@ export default function parseMap(tiledMap: TiledMap): TiledMapContainer {
     return world;
 }
 
-function parseLayer(tiledLayer: TiledLayer): TiledLayerContainer {
+function parseLayer(tiledLayer: TiledLayer, tiledMap: TiledMap): TiledLayerContainer {
     // TODO: add support for more layers and objects
     switch (tiledLayer.type) {
         case "tilelayer":
-            return parseTilesLayer(tiledLayer);
+            return parseTilesLayer(tiledLayer, tiledMap);
         case "objectgroup":
             return parseObjectsLayer(tiledLayer);
         default:
@@ -36,8 +36,24 @@ function parseLayer(tiledLayer: TiledLayer): TiledLayerContainer {
     }
 }
 
-function parseTilesLayer(tiledLayer: TiledLayerTilelayer): TiledLayerContainer {
-    return new Container() as TiledLayerContainer;
+function parseTilesLayer(tiledLayer: TiledLayerTilelayer, { tilewidth, tileheight }: TiledMap): TiledLayerContainer {
+    const layer = new Container();
+
+    for (let r = 0; r < tiledLayer.height; r++) {
+        for (let c = 0; c < tiledLayer.width; c++) {
+            const serial = tiledLayer.width * r + c;
+            const tileIndex = Number(tiledLayer.data[serial]) - 1;
+            const tileTexturePath = `assets/textures/terrain/tile_${String(tileIndex).padStart(4, "0")}.png`
+            const sprite = Sprite.from(tileTexturePath);
+
+            sprite.position.set(c * tilewidth, r * tileheight);
+            sprite.width = tilewidth;
+            sprite.height = tileheight;
+
+            layer.addChild(sprite);
+        }
+    }
+    return layer as TiledLayerContainer;
 }
 
 function parseObjectsLayer(tiledLayer: TiledLayerObjectgroup): TiledLayerContainer {
