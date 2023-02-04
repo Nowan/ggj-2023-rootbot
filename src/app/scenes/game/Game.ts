@@ -11,7 +11,8 @@ import {
     PixiSystem,
     BuildingSpawnSystem,
     BuildingCollisionSystem,
-    UprootSystem
+    UprootSystem,
+    BuildingEntangleSystem
 } from "./ecs";
 import parseLevel, { LevelContainer } from "./core/parseLevel";
 
@@ -68,9 +69,9 @@ export default class Game {
     }
 
     private _initEntities(): void {
-        for (let terrainTile of this.level.terrainTiles) {
-            this._entityFactory.createTerrainTile(terrainTile);
-        }
+        // for (let terrainTile of this.level.terrainTiles) {
+        //     this._entityFactory.createTerrainTile(terrainTile);
+        // }
         this._entityFactory.createRobotEntity();
     }
 
@@ -103,7 +104,8 @@ function createSystems(
         new PixiSystem(ecs, level),
         new BuildingCollisionSystem(ecs, entityFactory),
         new BuildingSpawnSystem(ecs, level, entityFactory),
-        new UprootSystem(ecs, physics, level)
+        new UprootSystem(ecs, physics, level),
+        new BuildingEntangleSystem(ecs, level, entityFactory)
     ];
 }
 

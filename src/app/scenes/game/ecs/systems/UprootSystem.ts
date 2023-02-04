@@ -1,10 +1,10 @@
-import { World as EcsEngine, Archetype } from "miniplex";
+import { World as EcsEngine, Archetype, RegisteredEntity } from "miniplex";
 import { BuildingEntity, Entity, RobotEntity } from "../entities";
 import System from "./System";
 import { Listener as KeypressListener } from "keypress.js";
-import { Engine as PhysicsEngine, Constraint, Composite, Body } from "matter-js";
+import { Engine as PhysicsEngine, Body } from "matter-js";
 import { LevelContainer } from "../../core/parseLevel";
-import Building from "../../pixi/Building";
+import Building from "../../pixi/BuildingContainer";
 
 export class UprootSystem extends System {
     private _physics: PhysicsEngine;
@@ -37,6 +37,7 @@ export class UprootSystem extends System {
                         Body.setPosition(buildingEntity.physics, { x: columnStartX, y: carrierRobotEntity.physics.position.y - robotHeight * 0.5 });
 
                         buildingGraphics.setRooted(true);
+                        buildingEntity.building.isCarried = false;
                         carrierRobotEntity.robot.carries = null;
                     }
                     else {
@@ -47,7 +48,11 @@ export class UprootSystem extends System {
                             const buildingGraphics = buildingEntity.pixi as Building;
 
                             collidingRobotEntity.robot.carries = buildingEntity;
+                            buildingEntity.building.isCarried = true;
                             buildingGraphics.setRooted(false);
+
+                            this.ecs.destroyEntity(buildingEntity.building.roots as RegisteredEntity<Entity>);
+                            buildingEntity.building.roots = null;
                         }
                     }
                 },

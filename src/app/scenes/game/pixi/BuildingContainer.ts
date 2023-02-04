@@ -1,5 +1,4 @@
 import { Container, Rectangle, Sprite } from "pixi.js"
-import { Assets } from "@pixi/assets";
 
 const ROOTED_ASSET_PATH = "assets/textures/building/house_root_00.png";
 const UNROOTED_ASSET_PATH = "assets/textures/building/house_noroot_00.png"

@@ -4,13 +4,14 @@ import { LevelContainer } from "../../../core/parseLevel";
 import {
     BuildingEntity,
     CollisionEntity,
-    Entity, RobotEntity, TerrainTileEntity,
+    Entity, RobotEntity, RootsEntity, TerrainTileEntity,
 } from "../Entity";
 import {
     composeBuildingEntity,
     composeCollisionEntity,
     composeRobotEntity,
-    composeTerrainTileEntity
+    composeTerrainTileEntity,
+    composeRootsEntity
 } from "./composers";
 
 export class EntityFactory {
@@ -36,6 +37,10 @@ export class EntityFactory {
 
     public createCollisionEntity<ENTITY_A extends Entity, ENTITY_B extends Entity = ENTITY_A>(entityA: ENTITY_A, entityB: ENTITY_B): RegisteredEntity<CollisionEntity<ENTITY_A, ENTITY_B>> {
         return this._register(composeCollisionEntity(entityA, entityB));
+    }
+
+    public createRootsEntity(): RegisteredEntity<RootsEntity> {
+        return this._register(composeRootsEntity(this._level));
     }
 
     private _register<ENTITY extends Entity>(entity: ENTITY): RegisteredEntity<ENTITY> {

@@ -5,3 +5,4 @@ export * from "./PixiSystem";
 export * from "./BuildingSpawnSystem";
 export * from "./BuildingCollisionSystem";
 export * from "./UprootSystem";
+export * from "./BuildingEntangleSystem";
