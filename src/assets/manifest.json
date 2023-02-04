@@ -1,0 +1,13 @@
+{
+    "bundles": [
+        {
+            "name": "gameScene",
+            "assets": [
+                {
+                    "name": "assets/textures/gui.json",
+                    "srcs": "assets/textures/gui.json"
+                }
+            ]
+        }
+    ]
+}
