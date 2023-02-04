@@ -18,10 +18,18 @@ export class BuildingSpawnSystem extends System {
 
         this._level = level;
         this._entityFactory = entityFactory;
-        this._archetype = ecs.archetype("physics") as Archetype<BuildingEntity>;
+        this._archetype = ecs.archetype("building") as Archetype<BuildingEntity>;
     }
 
-    public init() {
+    public update(): void {
+        if (this._archetype.entities.length <= 0) {
+            const diffNumberOfBuildings = gameConfig.initialNumberOfBuildings - this._archetype.entities.length;
+
+            this._spawnBuildings(diffNumberOfBuildings);
+        }
+    }
+
+    private _spawnBuildings(numberOfBuildings: number) {
         const validColumns = Array(this._level.tiled.width - 1).fill(null).map((_, i) => i);
         const [horizonPoint] = this._level.horizonLine;
         const robotSpawnColumn = Math.floor(this._level.robotSpawnPoint.x / this._level.tiled.tilewidth);

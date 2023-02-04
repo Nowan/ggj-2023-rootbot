@@ -10,6 +10,7 @@ import {
     KeyMoveSystem,
     PixiSystem,
     BuildingSpawnSystem,
+    BuildingUprootSystem,
 } from "./ecs";
 import parseLevel, { LevelContainer } from "./core/parseLevel";
 
@@ -96,6 +97,7 @@ function createSystems(
         new KeyMoveSystem(ecs),
         new PhysicsSystem(ecs, physics),
         new PixiSystem(ecs, level),
+        new BuildingUprootSystem(ecs),
         new BuildingSpawnSystem(ecs, level, entityFactory)
     ];
 }

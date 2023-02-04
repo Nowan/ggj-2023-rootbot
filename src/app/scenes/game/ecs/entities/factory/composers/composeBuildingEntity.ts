@@ -16,12 +16,12 @@ export function composeBuildingEntity(level: LevelContainer): BuildingEntity {
 }
 
 function createBuildingSprite(level: LevelContainer): Sprite {
-    const sprite = Sprite.from("assets/textures/building/house_root_00.png");
+    const sprite = Sprite.from("assets/textures/building/house_noroot_00.png");
 
     sprite.position.copyFrom(level.robotSpawnPoint);
     sprite.anchor.set(0.5);
 
-    return level.addChild(sprite);
+    return level.layers[0].addChild(sprite);
 }
 
 export default composeBuildingEntity;
