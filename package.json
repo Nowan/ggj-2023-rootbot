@@ -33,7 +33,7 @@
         "keypress.js": "^2.1.5",
         "matter-js": "^0.18.0",
         "miniplex": "^1.0.0",
-        "pixi-spine": "^3.0.1",
+        "pixi-spine": "^4.0.3",
         "pixi-viewport": "^4.38.0",
         "pixi.js": "^6.5.9",
         "regenerator-runtime": "^0.13.10",
