@@ -36,8 +36,10 @@ export class UprootSystem extends System {
 
                         Body.setPosition(buildingEntity.physics, { x: columnStartX, y: carrierRobotEntity.physics.position.y - robotHeight * 0.5 });
 
-                        buildingGraphics.setRooted(true);
+                        // buildingGraphics.setRooted(true);
                         buildingEntity.building.isCarried = false;
+                        buildingEntity.building.groundedTimestamp = Date.now();
+                        buildingGraphics.setGrounded(true);
                         carrierRobotEntity.robot.carries = null;
                     }
                     else {
@@ -49,6 +51,7 @@ export class UprootSystem extends System {
 
                             collidingRobotEntity.robot.carries = buildingEntity;
                             buildingEntity.building.isCarried = true;
+                            buildingGraphics.setGrounded(false);
                             buildingGraphics.setRooted(false);
 
                             this.ecs.destroyEntity(buildingEntity.building.roots as RegisteredEntity<Entity>);

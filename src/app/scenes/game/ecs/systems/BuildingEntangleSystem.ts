@@ -4,6 +4,7 @@ import RootsContainer from "../../pixi/RootsContainer";
 import BuildingContainer from "../../pixi/BuildingContainer";
 import { BuildingEntity, Entity, EntityFactory, PhysicsEntity, RobotEntity, RootsEntity } from "../entities";
 import System from "./System";
+import gameConfig from "../../../../config/game.config";
 
 export class BuildingEntangleSystem extends System {
     private _level: LevelContainer;
@@ -38,20 +39,24 @@ export class BuildingEntangleSystem extends System {
     public update(): void {
         for (let { building, pixi, physics: buildingBody } of this._archetypes.building.entities) {
             if (building.isCarried) continue;
+            const groundedTime = (Date.now() - building.groundedTimestamp) / 1000;
 
-            if (!building.roots) {
-                const buildingContainer = pixi as BuildingContainer;
-                building.roots = this._entityFactory.createRootsEntity();
+            if (groundedTime >= gameConfig.roots.appearAfterTime) {
+                if (!building.roots) {
+                    const buildingContainer = pixi as BuildingContainer;
+                    building.roots = this._entityFactory.createRootsEntity();
 
-                building.roots.pixi.position.set(buildingBody.position.x, buildingBody.position.y + buildingContainer.staticBounds.height * 0.5)
+                    buildingContainer.setRooted(true);
+                    building.roots.pixi.position.set(buildingBody.position.x, buildingBody.position.y + buildingContainer.staticBounds.height * 0.5 + 15)
+                }
+
+                const entity = building.roots;
+                const container = entity.pixi as RootsContainer;
+                const lifeTimeInS = (Date.now() - entity.roots.creationTimestamp) / 1000;
+                const rootsLength = lifeTimeInS * 0.5;
+
+                container.setLength(rootsLength);
             }
-
-            const entity = building.roots;
-            const container = entity.pixi as RootsContainer;
-            const lifeTimeInS = (Date.now() - entity.roots.creationTimestamp) / 1000;
-            const rootsLength = Math.floor(lifeTimeInS) * 0.5;
-
-            container.setLength(rootsLength);
         }
     }
 }

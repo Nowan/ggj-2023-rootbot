@@ -6,14 +6,13 @@ export default class RootsContainer extends Container {
     private _length: number;
     // private _topSprite: Sprite;
     private _middleSprite: Sprite;
-    private _bottomSprite: Sprite;
+    // private _bottomSprite: Sprite;
 
     constructor() {
         super();
 
-        // this._topSprite = this._createEdgeSprite();
         this._middleSprite = this._createMiddleSprite();
-        this._bottomSprite = this._createEdgeSprite();
+        // this._bottomSprite = this._createEdgeSprite();
 
         this._length = -1;
 
@@ -23,14 +22,9 @@ export default class RootsContainer extends Container {
     public setLength(length: number): void {
         if (length === this._length) return;
 
-        this._middleSprite.height = Math.max(length * TILE_HEIGHT, 0);
-        this._bottomSprite.y = length * TILE_HEIGHT;
+        this._middleSprite.height = length * TILE_HEIGHT;
+        // this._bottomSprite.y = length * TILE_HEIGHT;
 
-        // const sprite = this._createMiddleSprite();
-        // sprite.position.y = this._length * TILE_HEIGHT + TILE_HEIGHT * 0.5;
-
-        // this.pivot.y = ((length - 0.5) * TILE_HEIGHT) * 0.5;
-        // this._middleSprite.height = length * TILE_HEIGHT;
         this._length = length;
     }
 

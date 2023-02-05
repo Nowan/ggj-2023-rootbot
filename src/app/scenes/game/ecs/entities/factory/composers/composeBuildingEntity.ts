@@ -5,16 +5,17 @@ import physicsConfig from "../../../../../../config/physics.config";
 import BuildingContainer from "../../../../pixi/BuildingContainer";
 
 export function composeBuildingEntity(level: LevelContainer): BuildingEntity {
-    const sprite = level.layers[1].addChild(new BuildingContainer());
+    const container = level.layers[1].addChild(new BuildingContainer());
 
     return {
         id: "Building",
         building: {
+            groundedTimestamp: Date.now(),
             roots: null,
             isCarried: false
         },
-        pixi: sprite,
-        physics: Bodies.rectangle(sprite.x, sprite.y, sprite.width, sprite.height, physicsConfig.building)
+        pixi: container,
+        physics: Bodies.rectangle(container.x, container.y, container.staticBounds.width, container.staticBounds.height, physicsConfig.building)
     };
 }
 
