@@ -40,7 +40,7 @@ export class UprootSystem extends System {
                             this._level.tiled.tilewidth;
 
                         Body.setPosition(buildingEntity.physics, {
-                            x: columnStartX,
+                            x: Math.max(columnStartX, buildingGraphics.staticBounds.width * 0.5),
                             y: carrierRobotEntity.physics.position.y - robotHeight * 0.5,
                         });
 
