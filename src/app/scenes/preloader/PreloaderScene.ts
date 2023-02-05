@@ -33,7 +33,7 @@ export default class PreloaderScene extends Scene {
 
         await this._loadGameAssets();
 
-        // this.director.goTo(TitleScene.NAME);
+        this.director.goTo(TitleScene.NAME);
     }
 
     public resize(width: number, height: number): void {
@@ -45,12 +45,14 @@ export default class PreloaderScene extends Scene {
     private async _loadGameAssets() {
         const texturesAndDataAssetsPaths = [
             LEVEL_DATA_PATH,
+            "assets/textures/menu.json",
             "assets/textures/terrain.json",
             "assets/textures/character.json",
             "assets/textures/building.json",
         ];
 
         const soundAssetsPaths = [
+            "assets/sounds/music_titleScreen.ogg",
             "assets/sounds/music_main.ogg",
             "assets/sounds/music_liftup.ogg",
             "assets/sounds/sound_rooting.ogg",
@@ -79,8 +81,6 @@ export default class PreloaderScene extends Scene {
             totalProgress += soundProgressStep;
             this._progressBar.setProgress(totalProgress);
         }
-
-        this.director.goTo(TitleScene.NAME);
     }
 
     private _createViewport(): Viewport {
