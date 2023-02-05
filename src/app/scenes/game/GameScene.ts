@@ -35,6 +35,7 @@ export default class GameScene extends Scene {
         await loadSoundAsset("assets/sounds/sound_rooting.ogg");
         await loadSoundAsset("assets/sounds/sound_uprooting.ogg");
         await loadSoundAsset("assets/sounds/sound_steps.ogg");
+        await loadSoundAsset("assets/sounds/sound_lose.ogg");
     }
 
     public init(): void {
@@ -75,7 +76,13 @@ export default class GameScene extends Scene {
     private _createGame(levelData: TiledMap): Game {
         const game = new Game(levelData);
 
-        game.events.on(GameEvent.PLANET_CORE_REACHED, () => this.director.goTo(TitleScene.NAME));
+        game.events.on(GameEvent.PLANET_CORE_REACHED, () => {
+            const sound = Assets.cache.get("assets/sounds/sound_lose.ogg") as Sound;
+            sound.play();
+            game.pause();
+
+            setTimeout(() => this.director.goTo(TitleScene.NAME), 2500);
+        });
         game.events.on(GameEvent.HOUSE_LIFTED, () => {
             if (this._music && this._liftupMusic) {
                 const mainMusic = this._music?.instances[0]!;
@@ -84,11 +91,13 @@ export default class GameScene extends Scene {
                 });
             }
         });
+
         game.events.on(GameEvent.HOUSE_GROUNDED, () => {
             if (this._music && this._liftupMusic) {
                 this._liftupMusic.stop();
             }
         });
+
         return game;
     }
 
