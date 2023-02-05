@@ -5,6 +5,7 @@ import Scene, { FacadeRefs } from "../../core/sceneManagement/Scene";
 import TiledMap from "tiled-types";
 import Game, { GameEvent } from "./Game";
 import TitleScene from "../title/TitleScene";
+import anime from "animejs";
 
 const LEVEL_DATA_PATH = "assets/levels/main.tiled.json";
 
@@ -60,6 +61,7 @@ export default class GameScene extends Scene {
     public destroy() {
         this._game?.stop();
         this._music?.stop();
+        this._liftupMusic?.stop();
     }
 
     private _createViewport(): Viewport {
@@ -77,11 +79,31 @@ export default class GameScene extends Scene {
         const game = new Game(levelData);
 
         game.events.on(GameEvent.PLANET_CORE_REACHED, () => {
+            const soundDuckTime = 500;
+            const duckVolume = 0.2;
             const sound = Assets.cache.get("assets/sounds/sound_lose.ogg") as Sound;
             sound.play();
             game.pause();
 
-            setTimeout(() => this.director.goTo(TitleScene.NAME), 2500);
+            if (this._music) {
+                anime({
+                    targets: this._music,
+                    volume: duckVolume,
+                    duration: soundDuckTime,
+                    easing: "linear",
+                });
+            }
+
+            if (this._liftupMusic) {
+                anime({
+                    targets: this._liftupMusic,
+                    volume: duckVolume,
+                    duration: soundDuckTime,
+                    easing: "linear",
+                });
+            }
+
+            setTimeout(() => this.director.goTo(TitleScene.NAME), 3000);
         });
         game.events.on(GameEvent.HOUSE_LIFTED, () => {
             if (this._music && this._liftupMusic) {
