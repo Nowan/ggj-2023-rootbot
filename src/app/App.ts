@@ -1,7 +1,7 @@
 import { Application } from "pixi.js";
 import { Assets } from "@pixi/assets";
 import SceneDirector from "./core/sceneManagement/SceneDirector";
-import { GameScene, TitleScene } from "./scenes";
+import { GameScene, PreloaderScene, TitleScene } from "./scenes";
 
 export default class App extends Application {
     public director: SceneDirector;
@@ -12,9 +12,10 @@ export default class App extends Application {
         Assets.init({ manifest: "assets/manifest.json" });
 
         this.director = new SceneDirector(this);
+        this.director.register(PreloaderScene.NAME, PreloaderScene);
         this.director.register(TitleScene.NAME, TitleScene);
         this.director.register(GameScene.NAME, GameScene);
 
-        this.director.goTo(GameScene.NAME);
+        this.director.goTo(PreloaderScene.NAME);
     }
 }
