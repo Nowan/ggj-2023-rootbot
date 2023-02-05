@@ -1,5 +1,8 @@
+import { Assets } from "@pixi/assets";
+import { Sound } from "@pixi/sound";
 import anime, { AnimeInstance } from "animejs";
 import { Container, Graphics, Rectangle, Sprite } from "pixi.js";
+
 import gameConfig from "../../../config/game.config";
 
 export default class BuildingContainer extends Container {
@@ -40,6 +43,9 @@ export default class BuildingContainer extends Container {
                 easing: "easeOutSine",
                 duration: gameConfig.roots.appearAfterTime * 1000,
             });
+
+            const sound = Assets.cache.get("assets/sounds/sound_rooting.ogg") as Sound;
+            sound.play();
         } else {
             this._rootSprite.visible = false;
             if (this._groundedAnimation) anime.remove(this._groundedAnimation);

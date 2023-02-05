@@ -43,10 +43,6 @@ export default class Game {
         this._initSystems();
         this._initEntities();
         this._initPhysics();
-
-        const music = Assets.cache.get("assets/sounds/music_main.ogg") as Sound;
-        music.loop = true;
-        music.play();
     }
 
     public update(timeSinceLastFrameInS: number) {

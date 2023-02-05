@@ -13,6 +13,7 @@ export default class GameScene extends Scene {
 
     private _game: Game | null;
     private _viewport: Viewport;
+    private _music: Sound | null;
 
     constructor(refs: FacadeRefs) {
         super(refs);
@@ -27,12 +28,14 @@ export default class GameScene extends Scene {
         await Assets.load("assets/textures/character.json");
         await Assets.load("assets/textures/building.json");
         await loadSoundAsset("assets/sounds/music_main.ogg");
+        await loadSoundAsset("assets/sounds/sound_rooting.ogg");
     }
 
     public init(): void {
         this._game = this._createGame(Assets.cache.get(LEVEL_DATA_PATH));
 
         this._initLayout(this._game, this._viewport);
+        this._initMusic();
 
         this._game.start();
     }
@@ -49,6 +52,7 @@ export default class GameScene extends Scene {
 
     public destroy() {
         this._game?.stop();
+        this._music?.stop();
     }
 
     private _createViewport(): Viewport {
@@ -75,6 +79,12 @@ export default class GameScene extends Scene {
 
         viewport.resize(undefined, undefined, worldWidth, worldHeight);
         viewport.addChild(level);
+    }
+
+    private _initMusic(): void {
+        this._music = Assets.cache.get("assets/sounds/music_main.ogg") as Sound;
+        this._music.loop = true;
+        this._music.play();
     }
 }
 
