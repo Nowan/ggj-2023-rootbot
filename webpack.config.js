@@ -23,7 +23,7 @@ const packerEntries = readdirSync(rawTexturesPath, { withFileTypes: true })
         options: {
             textureName: `${dirent.name}`,
             fixedSize: false,
-            padding: 2,
+            padding: 1,
             allowRotation: true,
             detectIdentical: true,
             allowTrim: true,

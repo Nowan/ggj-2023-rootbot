@@ -29,6 +29,8 @@ export class UprootSystem extends System {
                     const [carrierRobotEntity] = this._archetype.entities.filter(({ robot }) => robot.carries);
 
                     if (carrierRobotEntity) {
+                        if (carrierRobotEntity.robot.collidesWith.length > 0) return;
+
                         const buildingEntity = carrierRobotEntity.robot.carries!;
                         const buildingGraphics = buildingEntity.pixi as Building;
                         const robotHeight =

@@ -5,6 +5,7 @@ import { Body } from "matter-js";
 import { World as EcsEngine, Archetype } from "miniplex";
 import { MoveKey } from "../components";
 import RobotContainer from "../../pixi/RobotContainer";
+import { clamp } from "../../../../core/utils/math";
 
 enum MoveDirection {
     LEFT = -1,
@@ -49,9 +50,12 @@ export class KeyMoveSystem extends System {
     }
 
     public update(dt: number) {
-        for (let { physics: body } of this._archetype.entities) {
+        for (let entity of this._archetype.entities) {
+            const container = entity.pixi as RobotContainer;
+            const spacingX = container.staticBounds.width * 0.5 + (entity.robot.carries ? 10 : 0);
+            const body = entity.physics;
             Body.setPosition(body, {
-                x: body.position.x + body.velocity.x,
+                x: clamp(body.position.x + body.velocity.x, spacingX, 600 - spacingX),
                 y: body.position.y + body.velocity.y,
             });
         }

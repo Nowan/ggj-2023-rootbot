@@ -50,6 +50,8 @@ export default class BuildingContainer extends Container {
             this._rootSprite.visible = false;
             if (this._groundedAnimation) anime.remove(this._groundedAnimation);
 
+            if (this.parent) this.parent.addChild(this);
+
             const sound = Assets.cache.get("assets/sounds/sound_uprooting.ogg") as Sound;
             sound.play();
         }
