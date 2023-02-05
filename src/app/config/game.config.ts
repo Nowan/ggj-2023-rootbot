@@ -1,7 +1,7 @@
 export default {
-    initialNumberOfBuildings: 3,
+    initialNumberOfBuildings: 5,
     roots: {
         appearAfterTime: 1,
-        growSpeed: 0.2
-    }
+        growSpeed: 0.2,
+    },
 };

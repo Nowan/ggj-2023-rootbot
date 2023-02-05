@@ -41,7 +41,7 @@ export default class TitleScene extends Scene {
                 direction: "alternate",
                 loop: true,
                 easing: "easeInBack",
-                duration: 270,
+                duration: 272,
                 delay: 0,
             }),
         );
