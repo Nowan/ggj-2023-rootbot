@@ -1,4 +1,5 @@
 import { Assets } from "@pixi/assets";
+import { Sound } from "@pixi/sound";
 import { Viewport } from "pixi-viewport";
 import Scene, { FacadeRefs } from "../../core/sceneManagement/Scene";
 import TiledMap from "tiled-types";
@@ -25,6 +26,7 @@ export default class GameScene extends Scene {
         await Assets.load("assets/textures/terrain.json");
         await Assets.load("assets/textures/character.json");
         await Assets.load("assets/textures/building.json");
+        await loadSoundAsset("assets/sounds/music_main.ogg");
     }
 
     public init(): void {
@@ -74,4 +76,21 @@ export default class GameScene extends Scene {
         viewport.resize(undefined, undefined, worldWidth, worldHeight);
         viewport.addChild(level);
     }
+}
+
+async function loadSoundAsset(soundPath: string): Promise<Sound> {
+    return new Promise((resolve, reject) => {
+        return Sound.from({
+            url: soundPath,
+            preload: true,
+            loaded: (error, sound) => {
+                if (sound) {
+                    Assets.cache.set(soundPath, sound);
+                    resolve(sound);
+                } else {
+                    reject(error);
+                }
+            },
+        });
+    });
 }

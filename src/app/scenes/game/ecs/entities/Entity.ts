@@ -1,5 +1,3 @@
-import { DisplayObject } from "pixi.js";
-import Building from "../../pixi/BuildingContainer";
 import {
     PixiComponent,
     PhysicsComponent,
@@ -7,33 +5,34 @@ import {
     RobotComponent,
     BuildingComponent,
     CollisionComponent,
-    RootsComponent
+    RootsComponent,
 } from "../components";
 
 export type Entity = { id: string } & Partial<
-    PixiComponent<DisplayObject> &
-    MoveOnKeysComponent &
-    PhysicsComponent &
-    RobotComponent &
-    BuildingComponent &
-    RootsComponent &
-    CollisionComponent<any>
+    PixiComponent &
+        MoveOnKeysComponent &
+        PhysicsComponent &
+        RobotComponent &
+        BuildingComponent &
+        RootsComponent &
+        CollisionComponent<any>
 >;
 
-export type PixiEntity<DISPLAY_OBJECT extends DisplayObject> = Required<Pick<Entity, "id" | keyof PixiComponent<DISPLAY_OBJECT>>>;
+export type PixiEntity = Required<Pick<Entity, "id" | keyof PixiComponent>>;
 
 export type PhysicsEntity = Required<Pick<Entity, "id" | keyof PhysicsComponent>>;
 
-export type PixiPhysicsEntity<PIXI extends DisplayObject> = PixiEntity<PIXI> & PhysicsEntity;
+export type PixiPhysicsEntity = PixiEntity & PhysicsEntity;
 
-export type RobotEntity = PixiPhysicsEntity<DisplayObject> & MoveOnKeysComponent & RobotComponent;
+export type RobotEntity = PixiPhysicsEntity & MoveOnKeysComponent & RobotComponent;
 
-export type BuildingEntity = PixiPhysicsEntity<Building> & BuildingComponent;
+export type BuildingEntity = PixiPhysicsEntity & BuildingComponent;
 
-export type CollisionEntity<ENTITY_A extends Entity, ENTITY_B extends Entity = ENTITY_A> = Entity & CollisionComponent<ENTITY_A, ENTITY_B>;
+export type CollisionEntity<ENTITY_A extends Entity, ENTITY_B extends Entity = ENTITY_A> = Entity &
+    CollisionComponent<ENTITY_A, ENTITY_B>;
 
-export type TerrainTileEntity = PixiPhysicsEntity<DisplayObject>;
+export type TerrainTileEntity = PixiPhysicsEntity;
 
-export type RootsEntity = PixiEntity<DisplayObject> & RootsComponent;
+export type RootsEntity = PixiEntity & RootsComponent;
 
 export default Entity;

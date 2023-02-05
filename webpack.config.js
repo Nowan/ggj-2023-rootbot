@@ -32,7 +32,7 @@ const packerEntries = readdirSync(rawTexturesPath, { withFileTypes: true })
             prependFolderName: true,
             prependFolderPath: true,
             width: 256,
-            height: 256
+            height: 256,
         },
     }));
 
@@ -72,6 +72,7 @@ module.exports = (env) => {
                 patterns: [
                     { from: "textures/*.*", to: "assets", context: "src/assets/", noErrorOnMissing: true },
                     { from: "levels/*.*", to: "assets", context: "src/assets/", noErrorOnMissing: true },
+                    { from: "sounds/*.*", to: "assets", context: "src/assets/", noErrorOnMissing: true },
                 ],
             }),
             new ManifestPlugin({

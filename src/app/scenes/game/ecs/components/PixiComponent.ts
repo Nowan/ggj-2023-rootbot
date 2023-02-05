@@ -1,7 +1,7 @@
 import { DisplayObject } from "pixi.js";
 
-export interface PixiComponent<DISPLAY_OBJECT extends DisplayObject> {
-    pixi: DISPLAY_OBJECT;
+export interface PixiComponent {
+    pixi: DisplayObject;
 }
 
 export default PixiComponent;

@@ -16,6 +16,8 @@ import {
     DeadzoneCollisionSystem,
 } from "./ecs";
 import parseLevel, { LevelContainer } from "./core/parseLevel";
+import { Sound } from "@pixi/sound";
+import { Assets } from "@pixi/assets";
 
 type Engines = { physics: PhysicsEngine; ecs: EcsEngine<Entity> };
 
@@ -41,6 +43,10 @@ export default class Game {
         this._initSystems();
         this._initEntities();
         this._initPhysics();
+
+        const music = Assets.cache.get("assets/sounds/music_main.ogg") as Sound;
+        music.loop = true;
+        music.play();
     }
 
     public update(timeSinceLastFrameInS: number) {
@@ -70,9 +76,6 @@ export default class Game {
     }
 
     private _initEntities(): void {
-        // for (let terrainTile of this.level.terrainTiles) {
-        //     this._entityFactory.createTerrainTile(terrainTile);
-        // }
         this._entityFactory.createRobotEntity();
     }
 
