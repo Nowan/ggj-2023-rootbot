@@ -11,25 +11,40 @@ export default class TitleScene extends Scene {
     public static readonly NAME = "Title";
 
     private _viewport: Viewport = this._createViewport();
-    private _animation: AnimeInstance | null = null;
+    private _animations: Array<AnimeInstance> = [];
     private _music: Sound | null = null;
 
     public init(): void {
         this._createBackground();
-        this._createLogo();
+        const logo = this._createLogo();
         const thumbnail = this._createThumbnail();
         this._createStartButton();
 
-        this._animation = anime({
-            targets: thumbnail.scale,
-            x: 1.2,
-            y: 1.2,
-            direction: "alternate",
-            loop: true,
-            easing: "easeInBack",
-            duration: 500,
-            delay: 100,
-        });
+        this._animations.push(
+            anime({
+                targets: thumbnail.scale,
+                x: 1.2,
+                y: 1.2,
+                direction: "alternate",
+                loop: true,
+                easing: "easeInBack",
+                duration: 541,
+                delay: 100,
+            }),
+        );
+
+        this._animations.push(
+            anime({
+                targets: logo.scale,
+                x: 1.05,
+                y: 1.05,
+                direction: "alternate",
+                loop: true,
+                easing: "easeInBack",
+                duration: 270,
+                delay: 0,
+            }),
+        );
 
         this._music = Assets.cache.get("assets/sounds/music_titleScreen.ogg") as Sound;
         this._music.loop = true;
@@ -43,7 +58,8 @@ export default class TitleScene extends Scene {
     }
 
     public destroy(): void {
-        if (this._animation) anime.remove(this._animation);
+        this._animations.forEach((animation) => anime.remove(animation));
+        // if (this._animation) anime.remove(this._animation);
         if (this._music) this._music.stop();
     }
 
@@ -77,6 +93,7 @@ export default class TitleScene extends Scene {
         const sprite = Sprite.from("assets/textures/menu/logo.png");
         sprite.position.set(0, -200);
         sprite.anchor.set(0.5);
+        sprite.pivot.y = 10;
         return this._viewport.addChild(sprite);
     }
 
