@@ -29,6 +29,7 @@ export default class GameScene extends Scene {
         await Assets.load("assets/textures/building.json");
         await loadSoundAsset("assets/sounds/music_main.ogg");
         await loadSoundAsset("assets/sounds/sound_rooting.ogg");
+        await loadSoundAsset("assets/sounds/sound_uprooting.ogg");
     }
 
     public init(): void {

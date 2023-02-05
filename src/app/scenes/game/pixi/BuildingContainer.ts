@@ -49,6 +49,9 @@ export default class BuildingContainer extends Container {
         } else {
             this._rootSprite.visible = false;
             if (this._groundedAnimation) anime.remove(this._groundedAnimation);
+
+            const sound = Assets.cache.get("assets/sounds/sound_uprooting.ogg") as Sound;
+            sound.play();
         }
 
         this._isGrounded = flag;
