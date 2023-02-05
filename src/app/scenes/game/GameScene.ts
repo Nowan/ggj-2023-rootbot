@@ -19,6 +19,7 @@ export default class GameScene extends Scene {
         super(refs);
 
         this._game = null;
+        this._music = null;
         this._viewport = this._createViewport();
     }
 
@@ -30,6 +31,7 @@ export default class GameScene extends Scene {
         await loadSoundAsset("assets/sounds/music_main.ogg");
         await loadSoundAsset("assets/sounds/sound_rooting.ogg");
         await loadSoundAsset("assets/sounds/sound_uprooting.ogg");
+        await loadSoundAsset("assets/sounds/sound_steps.ogg");
     }
 
     public init(): void {

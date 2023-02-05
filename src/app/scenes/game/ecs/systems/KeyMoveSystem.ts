@@ -4,16 +4,17 @@ import { Listener as KeypressListener } from "keypress.js";
 import { Body } from "matter-js";
 import { World as EcsEngine, Archetype } from "miniplex";
 import { MoveKey } from "../components";
+import RobotContainer from "../../pixi/RobotContainer";
 
 enum MoveDirection {
     LEFT = -1,
-    RIGHT = 1
-};
+    RIGHT = 1,
+}
 
 const directionToKeysMap = {
     [MoveDirection.LEFT]: [MoveKey.A, MoveKey.ARROW_LEFT],
-    [MoveDirection.RIGHT]: [MoveKey.D, MoveKey.ARROW_RIGHT]
-}
+    [MoveDirection.RIGHT]: [MoveKey.D, MoveKey.ARROW_RIGHT],
+};
 
 export class KeyMoveSystem extends System {
     private _archetype: Archetype<RobotEntity>;
@@ -61,16 +62,18 @@ function updateVelocity(entity: RobotEntity): void {
     const { states } = entity.moveOnKeys;
     const leftDirection = getDirectionState(MoveDirection.LEFT, states);
     const rightDirection = getDirectionState(MoveDirection.RIGHT, states);
+    const robotContainer = entity.pixi as RobotContainer;
 
-    if (leftDirection && rightDirection || (!leftDirection && !rightDirection)) {
+    if ((leftDirection && rightDirection) || (!leftDirection && !rightDirection)) {
+        robotContainer.setWalking(false);
         Body.setVelocity(entity.physics, { x: 0, y: 0 });
-    }
-    else {
+    } else {
         let velocity = 1;
 
         if (leftDirection) velocity *= -1;
         if (rightDirection) velocity *= 1;
 
+        robotContainer.setWalking(true);
         Body.setVelocity(entity.physics, { x: velocity * 2, y: 0 });
 
         entity.pixi.scale.x = Math.sign(velocity);
@@ -78,7 +81,7 @@ function updateVelocity(entity: RobotEntity): void {
 }
 
 function getDirectionState(direction: MoveDirection, keyStates: RobotEntity["moveOnKeys"]["states"]): boolean {
-    return !!Math.max(...directionToKeysMap[direction].map(moveKey => Number(keyStates[moveKey as MoveKey])));
+    return !!Math.max(...directionToKeysMap[direction].map((moveKey) => Number(keyStates[moveKey as MoveKey])));
 }
 
 export default KeyMoveSystem;
