@@ -15,18 +15,14 @@ export type LevelContainer = TiledMapContainer & {
 
 export default function parseLevel(levelData: TiledMap): LevelContainer {
     const level = parseTiledMap(levelData) as LevelContainer;
-    const background = level.addChildAt(
-        new Graphics()
-            .beginFill(0xff0000)
-            .drawRect(0, 0, level.staticBounds.width, level.staticBounds.height)
-            .endFill(),
-        0,
-    );
 
     level.robotSpawnPoint = selectDisplayObjectsOfName<Container>(level, "SPAWN_POINT")[0];
     level.terrainTiles = parseTerrainTiles(level);
     level.horizonLine = parseHorizonLine(levelData);
     level.deadLine = parseDeadLine(levelData);
+
+    createSkybox(level, level.horizonLine);
+    createLava(level, level.deadLine);
 
     return level;
 }
@@ -50,4 +46,18 @@ function parsePolyline(levelData: TiledMap, objectName: string): LineData {
         x: point.x + tiledObject.x,
         y: point.y + tiledObject.y,
     })) as LineData;
+}
+
+function createSkybox(level: LevelContainer, horizonLine: LineData): Sprite {
+    const sprite = Sprite.from("assets/textures/terrain/skybox.png");
+    sprite.anchor.set(0, 1);
+    sprite.position.set(0, horizonLine[0].y);
+    return level.addChildAt(sprite, 0);
+}
+
+function createLava(level: LevelContainer, deadLine: LineData): Sprite {
+    const sprite = Sprite.from("assets/textures/terrain/lava.png");
+    sprite.anchor.set(0, 0);
+    sprite.position.set(0, deadLine[0].y);
+    return level.addChild(sprite);
 }

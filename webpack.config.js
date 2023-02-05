@@ -31,8 +31,8 @@ const packerEntries = readdirSync(rawTexturesPath, { withFileTypes: true })
             removeFileExtension: false,
             prependFolderName: true,
             prependFolderPath: true,
-            width: 256,
-            height: 256,
+            width: 1028,
+            height: 512,
         },
     }));
 
