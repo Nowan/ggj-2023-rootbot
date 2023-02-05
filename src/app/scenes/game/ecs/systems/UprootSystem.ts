@@ -2,21 +2,23 @@ import { World as EcsEngine, Archetype, RegisteredEntity } from "miniplex";
 import { BuildingEntity, Entity, RobotEntity } from "../entities";
 import System from "./System";
 import { Listener as KeypressListener } from "keypress.js";
-import { Engine as PhysicsEngine, Body } from "matter-js";
+import { Body } from "matter-js";
 import { LevelContainer } from "../../core/parseLevel";
+import { utils } from "pixi.js";
 import Building from "../../pixi/BuildingContainer";
+import { GameEvent } from "../../Game";
 
 export class UprootSystem extends System {
-    private _physics: PhysicsEngine;
+    private _eventBus: utils.EventEmitter;
     private _level: LevelContainer;
     private _archetype: Archetype<RobotEntity>;
     private _keypressListener: KeypressListener;
 
-    constructor(ecs: EcsEngine<Entity>, physics: PhysicsEngine, level: LevelContainer) {
+    constructor(ecs: EcsEngine<Entity>, level: LevelContainer, eventBus: utils.EventEmitter) {
         super(ecs);
 
-        this._physics = physics;
         this._level = level;
+        this._eventBus = eventBus;
         this._archetype = ecs.archetype("robot") as Archetype<RobotEntity>;
         this._keypressListener = new KeypressListener();
     }
@@ -48,6 +50,8 @@ export class UprootSystem extends System {
                         buildingEntity.building.groundedTimestamp = Date.now();
                         buildingGraphics.setGrounded(true);
                         carrierRobotEntity.robot.carries = null;
+
+                        this._eventBus.emit(GameEvent.HOUSE_GROUNDED);
                     } else {
                         const [collidingRobotEntity] = this._archetype.entities.filter(
                             ({ robot }) => robot.collidesWith.length > 0,
@@ -63,6 +67,8 @@ export class UprootSystem extends System {
 
                             this.ecs.destroyEntity(buildingEntity.building.roots as RegisteredEntity<Entity>);
                             buildingEntity.building.roots = null;
+
+                            this._eventBus.emit(GameEvent.HOUSE_LIFTED);
                         }
                     }
                 },

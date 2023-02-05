@@ -14,12 +14,14 @@ export default class GameScene extends Scene {
     private _game: Game | null;
     private _viewport: Viewport;
     private _music: Sound | null;
+    private _liftupMusic: Sound | null;
 
     constructor(refs: FacadeRefs) {
         super(refs);
 
         this._game = null;
         this._music = null;
+        this._liftupMusic = null;
         this._viewport = this._createViewport();
     }
 
@@ -29,6 +31,7 @@ export default class GameScene extends Scene {
         await Assets.load("assets/textures/character.json");
         await Assets.load("assets/textures/building.json");
         await loadSoundAsset("assets/sounds/music_main.ogg");
+        await loadSoundAsset("assets/sounds/music_liftup.ogg");
         await loadSoundAsset("assets/sounds/sound_rooting.ogg");
         await loadSoundAsset("assets/sounds/sound_uprooting.ogg");
         await loadSoundAsset("assets/sounds/sound_steps.ogg");
@@ -73,7 +76,19 @@ export default class GameScene extends Scene {
         const game = new Game(levelData);
 
         game.events.on(GameEvent.PLANET_CORE_REACHED, () => this.director.goTo(TitleScene.NAME));
-
+        game.events.on(GameEvent.HOUSE_LIFTED, () => {
+            if (this._music && this._liftupMusic) {
+                const mainMusic = this._music?.instances[0]!;
+                this._liftupMusic?.play({
+                    start: this._music.duration * mainMusic.progress,
+                });
+            }
+        });
+        game.events.on(GameEvent.HOUSE_GROUNDED, () => {
+            if (this._music && this._liftupMusic) {
+                this._liftupMusic.stop();
+            }
+        });
         return game;
     }
 
@@ -88,6 +103,9 @@ export default class GameScene extends Scene {
         this._music = Assets.cache.get("assets/sounds/music_main.ogg") as Sound;
         this._music.loop = true;
         this._music.play();
+
+        this._liftupMusic = Assets.cache.get("assets/sounds/music_liftup.ogg") as Sound;
+        this._liftupMusic.loop = true;
     }
 }
 

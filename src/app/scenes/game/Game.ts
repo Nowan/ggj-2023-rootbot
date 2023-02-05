@@ -16,8 +16,6 @@ import {
     DeadzoneCollisionSystem,
 } from "./ecs";
 import parseLevel, { LevelContainer } from "./core/parseLevel";
-import { Sound } from "@pixi/sound";
-import { Assets } from "@pixi/assets";
 
 type Engines = { physics: PhysicsEngine; ecs: EcsEngine<Entity> };
 
@@ -104,7 +102,7 @@ function createSystems(
         new PixiSystem(ecs, level),
         new BuildingCollisionSystem(ecs, entityFactory),
         new BuildingSpawnSystem(ecs, level, entityFactory),
-        new UprootSystem(ecs, physics, level),
+        new UprootSystem(ecs, level, eventBus),
         new BuildingEntangleSystem(ecs, level, entityFactory),
         new DeadzoneCollisionSystem(ecs, level, eventBus),
     ];
