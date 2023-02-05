@@ -1,5 +1,5 @@
 export enum GameEvent {
-    // TODO: add Game events
+    PLANET_CORE_REACHED = "Game:planetCoreReached",
 }
 
 export default GameEvent;

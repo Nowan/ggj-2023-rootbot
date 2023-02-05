@@ -12,7 +12,8 @@ import {
     BuildingSpawnSystem,
     BuildingCollisionSystem,
     UprootSystem,
-    BuildingEntangleSystem
+    BuildingEntangleSystem,
+    DeadzoneCollisionSystem,
 } from "./ecs";
 import parseLevel, { LevelContainer } from "./core/parseLevel";
 
@@ -105,7 +106,8 @@ function createSystems(
         new BuildingCollisionSystem(ecs, entityFactory),
         new BuildingSpawnSystem(ecs, level, entityFactory),
         new UprootSystem(ecs, physics, level),
-        new BuildingEntangleSystem(ecs, level, entityFactory)
+        new BuildingEntangleSystem(ecs, level, entityFactory),
+        new DeadzoneCollisionSystem(ecs, level, eventBus),
     ];
 }
 

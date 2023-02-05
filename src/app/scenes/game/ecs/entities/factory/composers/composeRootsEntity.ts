@@ -8,9 +8,10 @@ export function composeRootsEntity(level: LevelContainer): RootsEntity {
     return {
         id: "Roots",
         roots: {
-            creationTimestamp: Date.now()
+            creationTimestamp: Date.now(),
+            length: 0,
         },
-        pixi: container
+        pixi: container,
     };
 }
 

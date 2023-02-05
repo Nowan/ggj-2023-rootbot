@@ -7,18 +7,26 @@ import { PartiallyRequired } from "../../../core/utils/utilityTypes";
 
 export type LineData = [pointA: IPointData, pointB: IPointData];
 export type LevelContainer = TiledMapContainer & {
-    robotSpawnPoint: Container,
-    horizonLine: LineData,
-    terrainTiles: Array<Sprite>
+    robotSpawnPoint: Container;
+    terrainTiles: Array<Sprite>;
+    horizonLine: LineData;
+    deadLine: LineData;
 };
 
 export default function parseLevel(levelData: TiledMap): LevelContainer {
     const level = parseTiledMap(levelData) as LevelContainer;
-    const background = level.addChildAt(new Graphics().beginFill(0xff0000).drawRect(0, 0, level.staticBounds.width, level.staticBounds.height).endFill(), 0);
+    const background = level.addChildAt(
+        new Graphics()
+            .beginFill(0xff0000)
+            .drawRect(0, 0, level.staticBounds.width, level.staticBounds.height)
+            .endFill(),
+        0,
+    );
 
     level.robotSpawnPoint = selectDisplayObjectsOfName<Container>(level, "SPAWN_POINT")[0];
     level.terrainTiles = parseTerrainTiles(level);
     level.horizonLine = parseHorizonLine(levelData);
+    level.deadLine = parseDeadLine(levelData);
 
     return level;
 }
@@ -29,6 +37,10 @@ function parseTerrainTiles(level: LevelContainer): Array<Sprite> {
 
 function parseHorizonLine(levelData: TiledMap): LineData {
     return parsePolyline(levelData, "HORIZON");
+}
+
+function parseDeadLine(levelData: TiledMap): LineData {
+    return parsePolyline(levelData, "DEADZONE");
 }
 
 function parsePolyline(levelData: TiledMap, objectName: string): LineData {

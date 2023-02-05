@@ -10,8 +10,8 @@ export class BuildingEntangleSystem extends System {
     private _level: LevelContainer;
     private _entityFactory: EntityFactory;
     private _archetypes: {
-        building: Archetype<BuildingEntity>,
-        roots: Archetype<RootsEntity>
+        building: Archetype<BuildingEntity>;
+        roots: Archetype<RootsEntity>;
     };
 
     constructor(ecs: EcsEngine<Entity>, level: LevelContainer, entityFactory: EntityFactory) {
@@ -21,19 +21,19 @@ export class BuildingEntangleSystem extends System {
         this._entityFactory = entityFactory;
         this._archetypes = {
             building: ecs.archetype("building") as Archetype<BuildingEntity>,
-            roots: ecs.archetype("roots") as Archetype<RootsEntity>
-        }
+            roots: ecs.archetype("roots") as Archetype<RootsEntity>,
+        };
     }
 
     public init(): void {
         this._archetypes.roots.onEntityAdded.add((entity) => {
             // entity.pixi.position.set()
             // building.roots.pixi.position.set(buildingBody.position.x, buildingBody.position.y + buildingContainer.staticBounds.height * 0.5)
-        })
+        });
 
         this._archetypes.roots.onEntityRemoved.add((entity) => {
             if (entity.pixi.parent) entity.pixi.parent.removeChild(entity.pixi);
-        })
+        });
     }
 
     public update(): void {
@@ -46,8 +46,10 @@ export class BuildingEntangleSystem extends System {
                     const buildingContainer = pixi as BuildingContainer;
                     building.roots = this._entityFactory.createRootsEntity();
 
-                    buildingContainer.setRooted(true);
-                    building.roots.pixi.position.set(buildingBody.position.x, buildingBody.position.y + buildingContainer.staticBounds.height * 0.5 + 15)
+                    building.roots.pixi.position.set(
+                        buildingBody.position.x,
+                        buildingBody.position.y + buildingContainer.staticBounds.height * 0.5 + 15,
+                    );
                 }
 
                 const entity = building.roots;
@@ -55,11 +57,11 @@ export class BuildingEntangleSystem extends System {
                 const lifeTimeInS = (Date.now() - entity.roots.creationTimestamp) / 1000;
                 const rootsLength = lifeTimeInS * 0.5;
 
+                entity.roots.length = rootsLength;
                 container.setLength(rootsLength);
             }
         }
     }
 }
-
 
 export default BuildingEntangleSystem;

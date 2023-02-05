@@ -1,6 +1,7 @@
 export interface RootsComponent {
     roots: {
-        creationTimestamp: number
+        creationTimestamp: number;
+        length: number;
     };
 }
 

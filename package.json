@@ -30,6 +30,7 @@
         "@pixi/assets": "^6.5.9",
         "animejs": "^3.2.1",
         "core-js": "^3.26.0",
+        "howler": "^2.2.3",
         "keypress.js": "^2.1.5",
         "matter-js": "^0.18.0",
         "miniplex": "^1.0.0",

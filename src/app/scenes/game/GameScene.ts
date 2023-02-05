@@ -2,7 +2,8 @@ import { Assets } from "@pixi/assets";
 import { Viewport } from "pixi-viewport";
 import Scene, { FacadeRefs } from "../../core/sceneManagement/Scene";
 import TiledMap from "tiled-types";
-import Game from "./Game";
+import Game, { GameEvent } from "./Game";
+import TitleScene from "../title/TitleScene";
 
 const LEVEL_DATA_PATH = "assets/levels/main.tiled.json";
 
@@ -61,7 +62,9 @@ export default class GameScene extends Scene {
 
     private _createGame(levelData: TiledMap): Game {
         const game = new Game(levelData);
-        // TODO: attach events
+
+        game.events.on(GameEvent.PLANET_CORE_REACHED, () => this.director.goTo(TitleScene.NAME));
+
         return game;
     }
 

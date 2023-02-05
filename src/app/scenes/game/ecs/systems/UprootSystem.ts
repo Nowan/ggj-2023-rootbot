@@ -31,19 +31,25 @@ export class UprootSystem extends System {
                     if (carrierRobotEntity) {
                         const buildingEntity = carrierRobotEntity.robot.carries!;
                         const buildingGraphics = buildingEntity.pixi as Building;
-                        const robotHeight = carrierRobotEntity.physics.bounds.max.y - carrierRobotEntity.physics.bounds.min.y;
-                        const columnStartX = Math.floor(carrierRobotEntity.physics.position.x / this._level.tiled.tilewidth) * this._level.tiled.tilewidth;
+                        const robotHeight =
+                            carrierRobotEntity.physics.bounds.max.y - carrierRobotEntity.physics.bounds.min.y;
+                        const columnStartX =
+                            Math.floor(carrierRobotEntity.physics.position.x / this._level.tiled.tilewidth) *
+                            this._level.tiled.tilewidth;
 
-                        Body.setPosition(buildingEntity.physics, { x: columnStartX, y: carrierRobotEntity.physics.position.y - robotHeight * 0.5 });
+                        Body.setPosition(buildingEntity.physics, {
+                            x: columnStartX,
+                            y: carrierRobotEntity.physics.position.y - robotHeight * 0.5,
+                        });
 
-                        // buildingGraphics.setRooted(true);
                         buildingEntity.building.isCarried = false;
                         buildingEntity.building.groundedTimestamp = Date.now();
                         buildingGraphics.setGrounded(true);
                         carrierRobotEntity.robot.carries = null;
-                    }
-                    else {
-                        const [collidingRobotEntity] = this._archetype.entities.filter(({ robot }) => robot.collidesWith.length > 0);
+                    } else {
+                        const [collidingRobotEntity] = this._archetype.entities.filter(
+                            ({ robot }) => robot.collidesWith.length > 0,
+                        );
 
                         if (collidingRobotEntity && collidingRobotEntity.robot.collidesWith.length > 0) {
                             const buildingEntity = collidingRobotEntity.robot.collidesWith[0] as BuildingEntity;
@@ -52,7 +58,6 @@ export class UprootSystem extends System {
                             collidingRobotEntity.robot.carries = buildingEntity;
                             buildingEntity.building.isCarried = true;
                             buildingGraphics.setGrounded(false);
-                            buildingGraphics.setRooted(false);
 
                             this.ecs.destroyEntity(buildingEntity.building.roots as RegisteredEntity<Entity>);
                             buildingEntity.building.roots = null;
@@ -73,7 +78,10 @@ export class UprootSystem extends System {
             const buildingHeight = buildingEntity.physics.bounds.max.y - buildingEntity.physics.bounds.min.y;
             const constraintLength = (buildingHeight + robotHeight) * 0.5;
 
-            Body.setPosition(buildingEntity.physics, { x: entity.physics.position.x, y: entity.physics.position.y - constraintLength })
+            Body.setPosition(buildingEntity.physics, {
+                x: entity.physics.position.x,
+                y: entity.physics.position.y - constraintLength,
+            });
         }
     }
 }
